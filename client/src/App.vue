@@ -15,7 +15,8 @@
         >
           <AppIcon name="bars3" :size="22" />
         </button>
-        <h2 class="page-title">{{ t(route.meta.titleKey) }}</h2>
+        <!-- route.meta is empty on the first render, before the initial navigation resolves -->
+        <h2 class="page-title">{{ route.meta.titleKey ? t(route.meta.titleKey) : '' }}</h2>
       </header>
 
       <FilterBar />
