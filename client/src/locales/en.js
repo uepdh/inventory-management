@@ -6,8 +6,18 @@ export default {
     orders: 'Orders',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
+    restocking: 'Restocking',
+    reports: 'Reports',
     companyName: 'Catalyst Components',
-    subtitle: 'Inventory Management System'
+    subtitle: 'Inventory Management System',
+    groups: {
+      operations: 'Operations',
+      insights: 'Insights'
+    },
+    collapseSidebar: 'Collapse sidebar',
+    expandSidebar: 'Expand sidebar',
+    openMenu: 'Open menu',
+    closeMenu: 'Close menu'
   },
 
   // Dashboard
@@ -126,6 +136,20 @@ export default {
       status: 'Status',
       expectedDelivery: 'Expected Delivery',
       actualDelivery: 'Actual Delivery'
+    },
+    submittedOrders: {
+      title: 'Submitted Restock Orders',
+      description: 'Restocking orders placed from the Restocking tab',
+      noOrders: 'No restock orders submitted yet',
+      table: {
+        orderNumber: 'Order Number',
+        items: 'Items',
+        totalCost: 'Total Cost',
+        leadTime: 'Lead Time',
+        orderDate: 'Order Date',
+        expectedDelivery: 'Expected Delivery',
+        status: 'Status'
+      }
     }
   },
 
@@ -185,6 +209,35 @@ export default {
       change: 'Change',
       trend: 'Trend',
       period: 'Period'
+    }
+  },
+
+  // Restocking
+  restocking: {
+    title: 'Restocking',
+    description: 'Set a budget and restock inventory based on demand forecasts',
+    budgetLabel: 'Available Budget',
+    recommendedItems: 'Recommended Items',
+    noRecommendations: 'Increase your budget to see restocking recommendations',
+    placeOrder: 'Place Order',
+    placingOrder: 'Placing Order...',
+    orderSuccess: 'Restock order submitted successfully',
+    orderError: 'Failed to submit restock order',
+    totalCost: 'Total Cost',
+    remainingBudget: 'Remaining Budget',
+    fullyFunded: 'Fully Funded',
+    partiallyFunded: 'Partially Funded',
+    leadTimeDays: '{days} days',
+    table: {
+      sku: 'SKU',
+      itemName: 'Item Name',
+      currentDemand: 'Current Demand',
+      forecastedDemand: 'Forecasted Demand',
+      trend: 'Trend',
+      unitCost: 'Unit Cost',
+      leadTime: 'Lead Time',
+      quantity: 'Quantity',
+      estimatedCost: 'Estimated Cost'
     }
   },
 

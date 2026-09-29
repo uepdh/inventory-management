@@ -1,7 +1,6 @@
 <template>
   <div class="spending">
     <div class="page-header">
-      <h2>{{ t('finance.title') }}</h2>
       <p>{{ t('finance.description') }}</p>
     </div>
 
