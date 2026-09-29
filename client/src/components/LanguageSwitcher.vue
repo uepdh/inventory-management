@@ -30,7 +30,7 @@
       </svg>
     </button>
 
-    <div v-if="isDropdownOpen" class="dropdown-menu">
+    <div v-if="isDropdownOpen" class="dropdown-menu" :class="placementClass">
       <button
         v-for="locale in availableLocales"
         :key="locale"
@@ -55,12 +55,21 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from '../composables/useI18n'
+
+const props = defineProps({
+  placement: {
+    type: String,
+    default: 'down-right'
+  }
+})
 
 const { currentLocale, setLocale, availableLocales, localeName } = useI18n()
 
 const isDropdownOpen = ref(false)
+
+const placementClass = computed(() => (props.placement === 'up-left' ? 'placement-up-left' : ''))
 
 const languageNames = {
   en: 'English',
@@ -137,6 +146,16 @@ const selectLanguage = (locale) => {
   top: calc(100% + 0.5rem);
   right: 0;
   min-width: 160px;
+}
+
+.dropdown-menu.placement-up-left {
+  top: auto;
+  right: auto;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+}
+
+.dropdown-menu {
   background: white;
   border: 1px solid #e2e8f0;
   border-radius: 10px;

@@ -21,7 +21,7 @@
       </svg>
     </button>
 
-    <div v-if="isDropdownOpen" class="dropdown-menu">
+    <div v-if="isDropdownOpen" class="dropdown-menu" :class="placementClass">
       <div class="dropdown-header">
         <div class="avatar-large">
           {{ getInitials(currentUser.name) }}
@@ -78,11 +78,20 @@ import { ref, computed } from 'vue'
 import { useAuth } from '../composables/useAuth'
 import { useI18n } from '../composables/useI18n'
 
+const props = defineProps({
+  placement: {
+    type: String,
+    default: 'down-right'
+  }
+})
+
 const { currentUser, logout, getInitials } = useAuth()
 const { t } = useI18n()
 
 const isDropdownOpen = ref(false)
 const emit = defineEmits(['show-profile-details', 'show-tasks'])
+
+const placementClass = computed(() => (props.placement === 'up-left' ? 'placement-up-left' : ''))
 
 const pendingTaskCount = computed(() => {
   return currentUser.value.tasks.filter(task => task.status === 'pending').length
@@ -172,6 +181,16 @@ const handleLogout = () => {
   top: calc(100% + 0.5rem);
   right: 0;
   min-width: 280px;
+}
+
+.dropdown-menu.placement-up-left {
+  top: auto;
+  right: auto;
+  bottom: calc(100% + 0.5rem);
+  left: 0;
+}
+
+.dropdown-menu {
   background: white;
   border: 1px solid #e2e8f0;
   border-radius: 10px;

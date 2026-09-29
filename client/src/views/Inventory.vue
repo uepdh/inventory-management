@@ -1,7 +1,6 @@
 <template>
   <div class="inventory">
     <div class="page-header">
-      <h2>{{ t('inventory.title') }}</h2>
       <p>{{ t('inventory.description') }}</p>
     </div>
 
