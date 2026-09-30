@@ -392,13 +392,6 @@ export default {
       return (value / maxValue) * 100
     }
 
-    const formatDate = (dateString) => {
-      return new Date(dateString).toLocaleDateString('en-US', {
-        month: 'short',
-        day: 'numeric'
-      })
-    }
-
     const formatDateShort = (dateString) => {
       const date = new Date(dateString)
       const month = (date.getMonth() + 1).toString().padStart(2, '0')
@@ -476,7 +469,6 @@ export default {
       currencySymbol,
       getBarHeight,
       getRevenueBarHeight,
-      formatDate,
       formatDateShort,
       translateMonth,
       translateCategory,

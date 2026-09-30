@@ -4,6 +4,7 @@ export default {
     overview: '概要',
     inventory: '在庫',
     orders: '注文',
+    backlog: 'バックログ',
     finance: '財務',
     demandForecast: '需要予測',
     restocking: '補充',
@@ -150,6 +151,31 @@ export default {
         expectedDelivery: '予定配達日',
         status: 'ステータス'
       }
+    }
+  },
+
+  // Backlog
+  backlog: {
+    subtitle: '在庫不足を追跡して解決します',
+    loading: 'バックログを読み込み中...',
+    loadError: 'バックログの読み込みに失敗しました',
+    highPriority: '高優先度',
+    mediumPriority: '中優先度',
+    lowPriority: '低優先度',
+    totalItems: 'バックログ項目合計',
+    itemsTitle: 'バックログ項目',
+    noItems: '在庫不足なし - すべての注文を履行できます！',
+    unitsShort: '単位不足',
+    days: '日',
+    table: {
+      orderId: '注文ID',
+      sku: 'SKU',
+      itemName: '品目名',
+      quantityNeeded: '必要数量',
+      quantityAvailable: '在庫数量',
+      shortage: '不足',
+      daysDelayed: '遅延日数',
+      priority: '優先度'
     }
   },
 
@@ -346,6 +372,37 @@ export default {
     close: '閉じる'
   },
 
+  // Product Details Modal
+  productDetails: {
+    title: '製品詳細',
+    category: 'カテゴリ',
+    warehouse: '倉庫',
+    unitsOrdered: '注文数量',
+    totalRevenue: '総収益',
+    currentStock: '現在の在庫',
+    reorderPoint: '再注文点',
+    firstOrderDate: '初回注文日',
+    stockStatus: '在庫状況',
+    units: '単位',
+    close: '閉じる'
+  },
+
+  // Inventory Shortage Details Modal
+  shortageDetails: {
+    title: '在庫不足の詳細',
+    orderId: '注文ID',
+    itemSku: '品目SKU',
+    quantityNeeded: '必要数量',
+    quantityAvailable: '在庫数量',
+    expectedDate: '予定日',
+    status: 'ステータス',
+    units: '単位',
+    close: '閉じる',
+    shortageAmount: '不足数量',
+    daysDelayed: '遅延日数',
+    days: '日'
+  },
+
   // Tasks Modal
   tasks: {
     title: 'マイタスク',
@@ -412,7 +469,11 @@ export default {
     '48V DC Power Supply Unit': '48V DC電源ユニット',
     'USB-C PD 100W Power Supply': 'USB-C PD 100W電源',
     'Battery Backup Power Supply': 'バッテリバックアップ電源',
-    'Adjustable Bench Power Supply': '可変ベンチ電源'
+    'Adjustable Bench Power Supply': '可変ベンチ電源',
+    'Oil Filter Cartridge': 'オイルフィルターカートリッジ',
+    'Electric Motor 5HP': '電動モータ5HP',
+    'Pressure Relief Valve': '圧力リリーフバルブ',
+    'Industrial Widget Type A': '産業用ウィジェットタイプA'
   },
 
   // Customer Names

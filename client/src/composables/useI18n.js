@@ -114,6 +114,27 @@ export function useI18n() {
     return warehouseName
   }
 
+  // Translate category names
+  const translateCategory = (category) => {
+    const categoryMap = {
+      'Circuit Boards': t('categories.circuitBoards'),
+      'Sensors': t('categories.sensors'),
+      'Actuators': t('categories.actuators'),
+      'Controllers': t('categories.controllers'),
+      'Power Supplies': t('categories.powerSupplies')
+    }
+    return categoryMap[category] || category
+  }
+
+  // Translate stock level labels
+  const translateStockLevel = (stockLevel) => {
+    const stockMap = {
+      'In Stock': t('status.inStock'),
+      'Low Stock': t('status.lowStock')
+    }
+    return stockMap[stockLevel] || stockLevel
+  }
+
   return {
     t,
     setLocale,
@@ -123,6 +144,8 @@ export function useI18n() {
     localeName,
     translateProductName,
     translateCustomerName,
-    translateWarehouse
+    translateWarehouse,
+    translateCategory,
+    translateStockLevel
   }
 }

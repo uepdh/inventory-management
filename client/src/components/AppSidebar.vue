@@ -99,6 +99,7 @@ const { collapsed, toggleCollapsed, mobileOpen, closeMobile } = useSidebar()
 const operationsLinks = [
   { path: '/inventory', labelKey: 'nav.inventory', icon: 'archiveBox' },
   { path: '/orders', labelKey: 'nav.orders', icon: 'shoppingCart' },
+  { path: '/backlog', labelKey: 'nav.backlog', icon: 'exclamationTriangle' },
   { path: '/restocking', labelKey: 'nav.restocking', icon: 'arrowPath' }
 ]
 

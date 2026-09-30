@@ -4,6 +4,7 @@ export default {
     overview: 'Overview',
     inventory: 'Inventory',
     orders: 'Orders',
+    backlog: 'Backlog',
     finance: 'Finance',
     demandForecast: 'Demand Forecast',
     restocking: 'Restocking',
@@ -150,6 +151,31 @@ export default {
         expectedDelivery: 'Expected Delivery',
         status: 'Status'
       }
+    }
+  },
+
+  // Backlog
+  backlog: {
+    subtitle: 'Track and resolve inventory shortages',
+    loading: 'Loading backlog...',
+    loadError: 'Failed to load backlog',
+    highPriority: 'High Priority',
+    mediumPriority: 'Medium Priority',
+    lowPriority: 'Low Priority',
+    totalItems: 'Total Backlog Items',
+    itemsTitle: 'Backlog Items',
+    noItems: 'No backlog items - all orders can be fulfilled!',
+    unitsShort: 'units short',
+    days: 'days',
+    table: {
+      orderId: 'Order ID',
+      sku: 'SKU',
+      itemName: 'Item Name',
+      quantityNeeded: 'Quantity Needed',
+      quantityAvailable: 'Quantity Available',
+      shortage: 'Shortage',
+      daysDelayed: 'Days Delayed',
+      priority: 'Priority'
     }
   },
 
@@ -344,6 +370,37 @@ export default {
     joinDate: 'Join Date',
     employeeId: 'Employee ID',
     close: 'Close'
+  },
+
+  // Product Details Modal
+  productDetails: {
+    title: 'Product Details',
+    category: 'Category',
+    warehouse: 'Warehouse',
+    unitsOrdered: 'Units Ordered',
+    totalRevenue: 'Total Revenue',
+    currentStock: 'Current Stock',
+    reorderPoint: 'Reorder Point',
+    firstOrderDate: 'First Order Date',
+    stockStatus: 'Stock Status',
+    units: 'units',
+    close: 'Close'
+  },
+
+  // Inventory Shortage Details Modal
+  shortageDetails: {
+    title: 'Inventory Shortage Details',
+    orderId: 'Order ID',
+    itemSku: 'Item SKU',
+    quantityNeeded: 'Quantity Needed',
+    quantityAvailable: 'Quantity Available',
+    expectedDate: 'Expected Date',
+    status: 'Status',
+    units: 'units',
+    close: 'Close',
+    shortageAmount: 'Shortage Amount',
+    daysDelayed: 'Days Delayed',
+    days: 'days'
   },
 
   // Tasks Modal
