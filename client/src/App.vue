@@ -179,26 +179,60 @@ export default {
 
 <style>
 :root {
-  --surface-0: #ffffff;
-  --surface-1: #f8fafc;
-  --surface-2: #f1f5f9;
-  --border: #e2e8f0;
-  --text-primary: #0f172a;
-  --text-secondary: #64748b;
-  --text-tertiary: #94a3b8;
-  --accent: #2563eb;
-  --accent-tint: #eff6ff;
-  --accent-contrast: #ffffff;
-  --success: #059669;
-  --warning: #ea580c;
-  --danger: #dc2626;
+  color-scheme: dark;
+
+  /* Surfaces - dark navy, darkest at the page level */
+  --surface-0: #0b1220;
+  --surface-1: #111a2e;
+  --surface-2: #1a2540;
+  --border: #243352;
+  --border-strong: #35476e;
+
+  /* Ink - every value clears 4.5:1 on all three surfaces */
+  --text-primary: #e8edf7;
+  --text-secondary: #9aa8c4;
+  --text-tertiary: #8593b2;
+
+  /* Accent - orange. NOTE: accent-contrast is navy, not white.
+     White on #f97316 is only 2.80:1 and fails; navy is 6.68:1. */
+  --accent: #f97316;
+  --accent-hover: #fb923c;
+  --accent-tint: #2a1a0e;
+  --accent-contrast: #0b1220;
+
+  /* Status inks - for badge text, status labels, trend indicators */
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --info: #60a5fa;
+
+  /* Status tints - badge backgrounds; pair each with its ink above */
+  --success-tint: #0c2a22;
+  --warning-tint: #2e2205;
+  --danger-tint: #2f1416;
+  --info-tint: #0f2038;
+
+  /* Chart series - fixed order, never cycled. Validated for
+     colourblind separation against the card surface. */
+  --series-1: #0d9488;
+  --series-2: #3b82f6;
+  --series-3: #7c3aed;
+  --series-4: #e11d48;
+
+  /* Shadows - opaque black on dark surfaces; the old slate-tinted
+     shadows are invisible against navy */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
+
+  /* Type */
+  --font-display: 'Space Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
   --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px;
   --space-5: 24px; --space-6: 32px; --space-8: 48px; --space-10: 64px;
   --radius-sm: 6px; --radius-md: 10px; --radius-lg: 16px;
   --text-xs: 12px; --text-sm: 13px; --text-base: 15px;
   --text-lg: 18px; --text-xl: 24px; --text-2xl: 30px;
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.06);
-  --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
 * {
@@ -208,11 +242,15 @@ export default {
 }
 
 body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-  background: var(--surface-1);
-  color: #1e293b;
+  font-family: var(--font-body);
+  background: var(--surface-0);
+  color: var(--text-primary);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
 }
 
 .app {
@@ -238,7 +276,7 @@ body {
   align-items: center;
   gap: var(--space-4);
   padding: 0 var(--space-6);
-  background: var(--surface-0);
+  background: var(--surface-1);
   border-bottom: 1px solid var(--border);
   position: sticky;
   top: 0;
@@ -317,7 +355,7 @@ body {
 }
 
 .stat-card {
-  background: var(--surface-0);
+  background: var(--surface-1);
   padding: var(--space-5);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
@@ -325,7 +363,7 @@ body {
 }
 
 .stat-card:hover {
-  border-color: #cbd5e1;
+  border-color: var(--border-strong);
   box-shadow: var(--shadow-md);
 }
 
@@ -339,6 +377,7 @@ body {
 }
 
 .stat-value {
+  font-family: var(--font-display);
   font-size: 2.25rem;
   font-weight: 700;
   color: var(--text-primary);
@@ -362,7 +401,7 @@ body {
 }
 
 .card {
-  background: var(--surface-0);
+  background: var(--surface-1);
   border-radius: var(--radius-md);
   padding: var(--space-5);
   border: 1px solid var(--border);
@@ -400,16 +439,16 @@ table {
 }
 
 thead {
-  background: var(--surface-1);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
+  background: var(--surface-2);
+  border-top: 1px solid var(--border-strong);
+  border-bottom: 1px solid var(--border-strong);
 }
 
 th {
   text-align: left;
   padding: 0.5rem 0.75rem;
   font-weight: 600;
-  color: #475569;
+  color: var(--text-secondary);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
@@ -417,8 +456,8 @@ th {
 
 td {
   padding: 0.5rem 0.75rem;
-  border-top: 1px solid var(--surface-2);
-  color: #334155;
+  border-top: 1px solid var(--border);
+  color: var(--text-primary);
   font-size: 0.875rem;
 }
 
@@ -427,7 +466,7 @@ tbody tr {
 }
 
 tbody tr:hover {
-  background: var(--surface-1);
+  background: var(--surface-2);
 }
 
 .badge {
@@ -441,53 +480,56 @@ tbody tr:hover {
 }
 
 .badge.success {
-  background: #d1fae5;
-  color: #065f46;
+  background: var(--success-tint);
+  color: var(--success);
 }
 
 .badge.warning {
-  background: #fed7aa;
-  color: #92400e;
+  background: var(--warning-tint);
+  color: var(--warning);
 }
 
 .badge.danger {
-  background: #fecaca;
-  color: #991b1b;
+  background: var(--danger-tint);
+  color: var(--danger);
 }
 
 .badge.info {
-  background: #dbeafe;
-  color: #1e40af;
+  background: var(--info-tint);
+  color: var(--info);
 }
 
 .badge.increasing {
-  background: #d1fae5;
-  color: #065f46;
+  background: var(--success-tint);
+  color: var(--success);
 }
 
 .badge.decreasing {
-  background: #fecaca;
-  color: #991b1b;
+  background: var(--danger-tint);
+  color: var(--danger);
 }
 
 .badge.stable {
-  background: #e0e7ff;
-  color: #3730a3;
+  /* No neutral/indigo token exists in the new palette; info is the
+     closest hue family and still reads as "steady state" rather
+     than a positive/negative trend. */
+  background: var(--info-tint);
+  color: var(--info);
 }
 
 .badge.high {
-  background: #fecaca;
-  color: #991b1b;
+  background: var(--danger-tint);
+  color: var(--danger);
 }
 
 .badge.medium {
-  background: #fed7aa;
-  color: #92400e;
+  background: var(--warning-tint);
+  color: var(--warning);
 }
 
 .badge.low {
-  background: #dbeafe;
-  color: #1e40af;
+  background: var(--info-tint);
+  color: var(--info);
 }
 
 .loading {
@@ -498,9 +540,9 @@ tbody tr:hover {
 }
 
 .error {
-  background: #fef2f2;
-  border: 1px solid #fecaca;
-  color: #991b1b;
+  background: var(--danger-tint);
+  border: 1px solid var(--danger);
+  color: var(--danger);
   padding: 1rem;
   border-radius: 8px;
   margin: 1rem 0;

@@ -195,7 +195,7 @@ export default {
 }
 
 .budget-label {
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -208,22 +208,69 @@ export default {
   gap: 1.25rem;
 }
 
+/* Explicit cross-browser range styling: OS default control renders as a
+   white box on dark navy, so track/thumb are fully redefined here. */
 .budget-slider {
   flex: 1;
-  accent-color: #2563eb;
+  accent-color: var(--accent);
+  appearance: none;
+  -webkit-appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-2);
+  cursor: pointer;
+}
+
+.budget-slider::-webkit-slider-runnable-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-2);
+}
+
+.budget-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--accent-hover);
+  margin-top: -6px;
+  cursor: pointer;
+}
+
+.budget-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--surface-2);
+}
+
+.budget-slider::-moz-range-progress {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--accent);
+}
+
+.budget-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid var(--accent-hover);
+  cursor: pointer;
 }
 
 .budget-value {
   font-size: 1.5rem;
   font-weight: 700;
-  color: #0f172a;
+  color: var(--text-primary);
   min-width: 120px;
   text-align: right;
 }
 
 .place-order-btn {
-  background: #2563eb;
-  color: white;
+  background: var(--accent);
+  color: var(--accent-contrast);
   border: none;
   padding: 0.5rem 1.25rem;
   border-radius: 6px;
@@ -234,25 +281,25 @@ export default {
 }
 
 .place-order-btn:hover:not(:disabled) {
-  background: #1d4ed8;
+  background: var(--accent-hover);
 }
 
 .place-order-btn:disabled {
-  background: #cbd5e1;
+  background: var(--border);
   cursor: not-allowed;
 }
 
 .empty-state {
   text-align: center;
   padding: 2rem;
-  color: #64748b;
+  color: var(--text-secondary);
   font-size: 0.938rem;
 }
 
 .success-banner {
-  background: #ecfdf5;
-  border: 1px solid #a7f3d0;
-  color: #065f46;
+  background: var(--success-tint);
+  border: 1px solid var(--success);
+  color: var(--success);
   padding: 1rem;
   border-radius: 8px;
   margin: 1rem 0;

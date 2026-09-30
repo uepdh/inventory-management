@@ -70,7 +70,31 @@ npm install && npm run dev
 - Styles: `client/src/App.vue`
 
 ## Design System
-- Colors: Slate/gray (#0f172a, #64748b, #e2e8f0)
-- Status: green/blue/yellow/red
-- Charts: Custom SVG, CSS Grid for layouts
+
+**Dark navy + orange, driven entirely by CSS custom properties.** Every colour is
+defined once in the `:root` block of `client/src/App.vue`. **Never hardcode a hex
+value in a component** — use a token, or add one to `:root` if genuinely missing.
+The whole app was migrated off 459 hardcoded colours to make retheming a one-file
+change; reintroducing literals undoes that.
+
+- **Surfaces**: `--surface-0` page (darkest) · `--surface-1` cards · `--surface-2`
+  raised/hover/inputs · `--border`, `--border-strong`
+- **Ink**: `--text-primary`, `--text-secondary`, `--text-tertiary` — all clear
+  4.5:1 on every surface
+- **Accent**: `--accent` orange, `--accent-hover`, `--accent-tint`.
+  ⚠️ `--accent-contrast` is **navy, not white** — white on the orange accent is
+  only 2.80:1 and fails. Any accent-background element must use it.
+- **Status**: `--success` `--warning` `--danger` `--info`, each with a matching
+  `--*-tint`. On dark these pair as **tint background + ink text** (the inverse of
+  a light theme's pale-background/dark-text badge). Never map both halves to the
+  same token — that yields invisible text.
+- **Charts**: `--series-1..4`, assigned in fixed order and never cycled. Validated
+  for colourblind separation against the card surface via the `dataviz` skill's
+  `validate_palette.js`. Processing is **violet, not amber** — red-vs-amber is
+  indistinguishable under deuteranopia. Magnitude bars are *sequential*: one hue
+  (`--accent`), not a hue per category. Grid lines wear `--border`; labels wear
+  text tokens, never a series colour.
+- **Type**: `--font-display` (Space Grotesk) for headings and stat numbers,
+  `--font-body` (Inter) for everything else. Both loaded in `client/index.html`.
+- Custom SVG charts, CSS Grid for layouts
 - No emojis in UI
