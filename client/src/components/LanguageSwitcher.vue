@@ -1,7 +1,10 @@
 <template>
-  <div class="language-switcher">
+  <div class="language-switcher" :class="{ collapsed: collapsed }">
     <button
+      ref="triggerRef"
       class="language-button"
+      :title="collapsed ? localeName : null"
+      :aria-label="collapsed ? localeName : null"
       @click="toggleDropdown"
       @blur="handleBlur"
     >
@@ -17,8 +20,9 @@
         <path d="M10 3C10 3 7.5 5.5 7.5 10C7.5 14.5 10 17 10 17" stroke="currentColor" stroke-width="1.5"/>
         <path d="M10 3C10 3 12.5 5.5 12.5 10C12.5 14.5 10 17 10 17" stroke="currentColor" stroke-width="1.5"/>
       </svg>
-      <span class="language-label">{{ localeName }}</span>
+      <span v-if="!collapsed" class="language-label">{{ localeName }}</span>
       <svg
+        v-if="!collapsed"
         class="chevron"
         :class="{ 'chevron-open': isDropdownOpen }"
         width="16"
@@ -30,33 +34,47 @@
       </svg>
     </button>
 
-    <div v-if="isDropdownOpen" class="dropdown-menu" :class="placementClass">
-      <button
-        v-for="locale in availableLocales"
-        :key="locale"
-        class="dropdown-item"
-        :class="{ active: currentLocale === locale }"
-        @mousedown.prevent="selectLanguage(locale)"
+    <!--
+      Collapsed sidebar rail clips an absolutely-positioned menu via its
+      `overflow: hidden`, so escape it to <body> and anchor to the right of
+      the rail with measured coordinates. Expanded state keeps the original
+      absolute positioning (Teleport disabled -> renders in place).
+    -->
+    <Teleport to="body" :disabled="!collapsed">
+      <div
+        v-if="isDropdownOpen"
+        class="dropdown-menu"
+        :class="placementClass"
+        :style="collapsed ? floatingStyle : null"
       >
-        <span class="language-name">{{ getLanguageName(locale) }}</span>
-        <svg
-          v-if="currentLocale === locale"
-          width="18"
-          height="18"
-          viewBox="0 0 18 18"
-          fill="none"
-          class="check-icon"
+        <button
+          v-for="locale in availableLocales"
+          :key="locale"
+          class="dropdown-item"
+          :class="{ active: currentLocale === locale }"
+          @mousedown.prevent="selectLanguage(locale)"
         >
-          <path d="M4 9L7.5 12.5L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-    </div>
+          <span class="language-name">{{ getLanguageName(locale) }}</span>
+          <svg
+            v-if="currentLocale === locale"
+            width="18"
+            height="18"
+            viewBox="0 0 18 18"
+            fill="none"
+            class="check-icon"
+          >
+            <path d="M4 9L7.5 12.5L14 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </Teleport>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, nextTick } from 'vue'
 import { useI18n } from '../composables/useI18n'
+import { useSidebar } from '../composables/useSidebar'
 
 const props = defineProps({
   placement: {
@@ -66,10 +84,27 @@ const props = defineProps({
 })
 
 const { currentLocale, setLocale, availableLocales, localeName } = useI18n()
+const { collapsed } = useSidebar()
 
 const isDropdownOpen = ref(false)
+const triggerRef = ref(null)
+const floatingStyle = ref({})
 
 const placementClass = computed(() => (props.placement === 'up-left' ? 'placement-up-left' : ''))
+
+// Anchor the teleported menu to the right of the collapsed rail, bottom-
+// aligned with the trigger button, using the button's live screen position.
+const updateFloatingPosition = () => {
+  if (!collapsed.value || !triggerRef.value) return
+  const rect = triggerRef.value.getBoundingClientRect()
+  floatingStyle.value = {
+    position: 'fixed',
+    top: 'auto',
+    right: 'auto',
+    left: `${rect.right + 8}px`,
+    bottom: `${window.innerHeight - rect.bottom}px`
+  }
+}
 
 const languageNames = {
   en: 'English',
@@ -82,6 +117,9 @@ const getLanguageName = (locale) => {
 
 const toggleDropdown = () => {
   isDropdownOpen.value = !isDropdownOpen.value
+  if (isDropdownOpen.value) {
+    nextTick(updateFloatingPosition)
+  }
 }
 
 const handleBlur = () => {
@@ -120,6 +158,18 @@ const selectLanguage = (locale) => {
 .language-button:hover {
   background: var(--surface-2);
   border-color: var(--border-strong);
+}
+
+/*
+  Collapsed sidebar rail is 76px; the expanded button's space-3 horizontal
+  padding plus its border leaves too little room once the label/chevron are
+  gone, so drop to space-2 (matching the nav-link's vertical rhythm) and
+  centre the icon in the full-width button.
+*/
+.language-switcher.collapsed .language-button {
+  width: 100%;
+  justify-content: center;
+  padding: var(--space-2);
 }
 
 .globe-icon {
