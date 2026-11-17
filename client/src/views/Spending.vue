@@ -8,29 +8,26 @@
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
       <!-- Revenue & Financial KPIs -->
-      <div class="stats-grid-finance">
-        <div class="stat-card revenue-card">
+      <div class="stats-grid">
+        <div class="stat-card success">
           <div class="stat-label">{{ t('finance.totalRevenue') }}</div>
           <div class="stat-value">{{ formatCurrency(revenueMetrics.totalRevenue) }}</div>
-          <div class="stat-change positive">
-            <span class="change-icon">↑</span>
-            {{ t('finance.fromOrders', { count: revenueMetrics.orderCount }) }}
-          </div>
+          <div class="stat-sub positive">{{ t('finance.fromOrders', { count: revenueMetrics.orderCount }) }}</div>
         </div>
-        <div class="stat-card cost-card">
+        <div class="stat-card danger">
           <div class="stat-label">{{ t('finance.totalCosts') }}</div>
           <div class="stat-value">{{ formatCurrency(totalCosts) }}</div>
-          <div class="stat-meta">{{ t('finance.costBreakdown') }}</div>
+          <div class="stat-sub">{{ t('finance.costBreakdown') }}</div>
         </div>
-        <div class="stat-card profit-card">
+        <div class="stat-card info">
           <div class="stat-label">{{ t('finance.netProfit') }}</div>
           <div class="stat-value">{{ formatCurrency(netProfit) }}</div>
-          <div class="stat-meta">{{ profitMargin }}% {{ t('finance.margin') }}</div>
+          <div class="stat-sub">{{ profitMargin }}% {{ t('finance.margin') }}</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">{{ t('finance.avgOrderValue') }}</div>
           <div class="stat-value">{{ formatCurrency(revenueMetrics.avgOrderValue) }}</div>
-          <div class="stat-meta">{{ t('finance.perOrderRevenue') }}</div>
+          <div class="stat-sub">{{ t('finance.perOrderRevenue') }}</div>
         </div>
       </div>
 
@@ -149,11 +146,11 @@
                   class="clickable-row"
                   @click="handleTransactionClick(transaction)"
                 >
-                  <td class="transaction-id">{{ transaction.id.toString().padStart(3, '0') }}</td>
+                  <td class="transaction-id nowrap">{{ transaction.id.toString().padStart(3, '0') }}</td>
                   <td class="transaction-description">{{ transaction.description }}</td>
                   <td class="transaction-vendor">{{ transaction.vendor }}</td>
-                  <td class="transaction-date">{{ formatDateShort(transaction.date) }}</td>
-                  <td class="transaction-amount text-right">{{ currencySymbol }}{{ transaction.amount.toLocaleString() }}</td>
+                  <td class="transaction-date nowrap">{{ formatDateShort(transaction.date) }}</td>
+                  <td class="transaction-amount text-right nowrap">{{ currencySymbol }}{{ transaction.amount.toLocaleString() }}</td>
                 </tr>
               </tbody>
             </table>
@@ -483,34 +480,14 @@ export default {
 </script>
 
 <style scoped>
-.stat-change {
-  margin-top: 0.75rem;
-  font-size: 0.875rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.stat-change.positive {
-  color: var(--success);
-}
-
-.stat-change.negative {
-  color: var(--danger);
-}
-
-.change-icon {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
 .chart-card {
   margin-bottom: 1.75rem;
 }
 
 .chart-legend {
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
   font-size: 0.875rem;
 }
 
@@ -538,31 +515,6 @@ export default {
    and --danger is reserved for genuine status rather than a series. */
 .legend-dot.revenue-color { background: var(--series-1); }
 .legend-dot.cost-color { background: var(--series-4); }
-
-.stats-grid-finance {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 2rem;
-}
-
-.revenue-card {
-  border-left: 4px solid var(--series-1);
-}
-
-.cost-card {
-  border-left: 4px solid var(--series-4);
-}
-
-.profit-card {
-  border-left: 4px solid var(--accent);
-}
-
-.stat-meta {
-  margin-top: 0.5rem;
-  font-size: 0.813rem;
-  color: var(--text-secondary);
-}
 
 .bar-group-revenue {
   display: flex;
@@ -607,12 +559,16 @@ export default {
 
 .chart-container {
   padding: 1.5rem 0;
+  overflow-x: auto;
 }
 
 .bar-chart {
   display: flex;
   gap: 1.5rem;
   height: 350px;
+  /* 12 fixed-width month groups don't fit a narrow viewport; let the
+     container scroll horizontally instead of overflowing the page */
+  min-width: 600px;
 }
 
 .y-axis {
@@ -694,6 +650,14 @@ export default {
   gap: 1.75rem;
 }
 
+/* Grid items default to min-width: auto, which lets their content (the
+   transactions table) force the track wider than the track's own width and
+   clip the last column. min-width: 0 lets the card shrink to the track so
+   its own overflow-x can scroll instead. */
+.two-column-grid > .card {
+  min-width: 0;
+}
+
 .category-list {
   display: flex;
   flex-direction: column;
@@ -767,6 +731,7 @@ export default {
 
 .transactions-table-container {
   overflow-y: auto;
+  overflow-x: auto;
   max-height: 400px;
 }
 
@@ -844,5 +809,14 @@ export default {
 
 .text-right {
   text-align: right;
+}
+
+@media (max-width: 920px) {
+  /* minmax(450px, 1fr) enforces a 450px floor per track even when the
+     viewport itself is narrower than that, forcing the page to overflow;
+     drop the floor once there's only room for a single column anyway. */
+  .two-column-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

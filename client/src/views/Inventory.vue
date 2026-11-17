@@ -7,6 +7,21 @@
     <div v-if="loading" class="loading">{{ t('common.loading') }}</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <div v-else>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">{{ t('inventory.totalSkus') }}</div>
+          <div class="stat-value">{{ items.length }}</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">{{ t('inventory.lowStockItems') }}</div>
+          <div class="stat-value">{{ lowStockCount }}</div>
+        </div>
+        <div class="stat-card info">
+          <div class="stat-label">{{ t('inventory.totalValue') }}</div>
+          <div class="stat-value">{{ currencySymbol }}{{ totalInventoryValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }}</div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-header">
           <h3 class="card-title">{{ t('inventory.stockLevels') }} ({{ filteredItems.length }} {{ t('inventory.skus') }})</h3>
@@ -54,15 +69,15 @@
                 class="clickable-row"
                 @click="showItemDetail(item)"
               >
-                <td><strong>{{ item.sku }}</strong></td>
+                <td class="nowrap"><strong>{{ item.sku }}</strong></td>
                 <td>{{ translateProductName(item.name) }}</td>
                 <td>{{ translateCategory(item.category) }}</td>
                 <td><strong>{{ item.quantity_on_hand }}</strong></td>
                 <td>{{ item.reorder_point }}</td>
                 <td>{{ currencySymbol }}{{ item.unit_cost.toFixed(2) }}</td>
                 <td><strong>{{ currencySymbol }}{{ (item.quantity_on_hand * item.unit_cost).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</strong></td>
-                <td>{{ translateWarehouse(item.location) }}</td>
-                <td>
+                <td class="nowrap">{{ translateWarehouse(item.location) }}</td>
+                <td class="nowrap">
                   <span :class="['badge', getStockStatusClass(item)]">
                     {{ getStockStatus(item) }}
                   </span>
@@ -148,6 +163,16 @@ export default {
       })
     })
 
+    // Stat row totals - computed from the warehouse/category-filtered list
+    // (not the live search query), matching the other pages' stat pattern
+    const lowStockCount = computed(() => {
+      return items.value.filter(item => item.quantity_on_hand <= item.reorder_point).length
+    })
+
+    const totalInventoryValue = computed(() => {
+      return items.value.reduce((sum, item) => sum + item.quantity_on_hand * item.unit_cost, 0)
+    })
+
     const loadInventory = async () => {
       try {
         loading.value = true
@@ -209,6 +234,8 @@ export default {
       items,
       searchQuery,
       filteredItems,
+      lowStockCount,
+      totalInventoryValue,
       getStockStatus,
       getStockStatusClass,
       translateCategory,
@@ -235,22 +262,6 @@ export default {
 .page-header p {
   color: var(--text-secondary);
   font-size: 0.875rem;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1.5rem;
-  padding: 1.25rem 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
-
-.card-title {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
 }
 
 .search-box {

@@ -349,9 +349,9 @@ h1, h2, h3, h4 {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: var(--space-5);
-  margin-bottom: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
 .stat-card {
@@ -359,29 +359,43 @@ h1, h2, h3, h4 {
   padding: var(--space-5);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .stat-card:hover {
   border-color: var(--border-strong);
-  box-shadow: var(--shadow-md);
 }
 
 .stat-label {
-  color: var(--text-secondary);
-  font-size: 0.875rem;
+  color: var(--text-tertiary);
+  font-size: var(--text-xs);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.625rem;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-2);
 }
 
 .stat-value {
   font-family: var(--font-display);
-  font-size: 2.25rem;
+  font-size: var(--text-2xl);
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.025em;
+  line-height: 1.1;
+}
+
+.stat-sub {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+}
+
+.stat-sub.positive {
+  color: var(--success);
+}
+
+.stat-sub.negative {
+  color: var(--danger);
 }
 
 .stat-card.warning .stat-value {
@@ -405,25 +419,23 @@ h1, h2, h3, h4 {
   border-radius: var(--radius-md);
   padding: var(--space-5);
   border: 1px solid var(--border);
-  margin-bottom: 1.25rem;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-.card:hover {
-  box-shadow: var(--shadow-sm);
+  margin-bottom: var(--space-5);
 }
 
 .card-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  padding-bottom: 0.875rem;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-3);
   border-bottom: 1px solid var(--border);
 }
 
 .card-title {
-  font-size: 1.125rem;
+  font-family: var(--font-display);
+  font-size: var(--text-lg);
   font-weight: 700;
   color: var(--text-primary);
   letter-spacing: -0.025em;
@@ -446,19 +458,24 @@ thead {
 
 th {
   text-align: left;
-  padding: 0.5rem 0.75rem;
+  padding: var(--space-3);
   font-weight: 600;
   color: var(--text-secondary);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+  white-space: nowrap;
 }
 
 td {
-  padding: 0.5rem 0.75rem;
+  padding: var(--space-3);
   border-top: 1px solid var(--border);
   color: var(--text-primary);
   font-size: 0.875rem;
+}
+
+.nowrap {
+  white-space: nowrap;
 }
 
 tbody tr {
@@ -477,6 +494,7 @@ tbody tr:hover {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.025em;
+  white-space: nowrap;
 }
 
 .badge.success {
@@ -547,5 +565,16 @@ tbody tr:hover {
   border-radius: 8px;
   margin: 1rem 0;
   font-size: 0.938rem;
+}
+
+@media (max-width: 768px) {
+  .card,
+  .stat-card {
+    padding: var(--space-4);
+  }
+
+  .stats-grid {
+    gap: var(--space-3);
+  }
 }
 </style>

@@ -116,20 +116,25 @@ export default {
   padding: 0 2rem;
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
 .filters-grid {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 1rem;
   flex: 1;
+  min-width: 0;
 }
 
 .filter-group {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  flex-wrap: wrap;
+  min-width: 0;
 }
 
 .filter-group label {
@@ -190,5 +195,18 @@ export default {
 .reset-filters-btn svg {
   width: 18px;
   height: 18px;
+}
+
+@media (max-width: 480px) {
+  .filter-group {
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .filter-select {
+    width: 100%;
+    min-width: 0;
+  }
 }
 </style>

@@ -89,6 +89,7 @@ export default {
     description: 'すべての在庫品目の追跡と管理',
     stockLevels: '在庫レベル',
     skus: 'SKU',
+    totalSkus: '総SKU数',
     searchPlaceholder: '品目名で検索...',
     clearSearch: '検索をクリア',
     totalItems: '総品目数',

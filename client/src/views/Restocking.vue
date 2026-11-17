@@ -70,18 +70,18 @@
             </thead>
             <tbody>
               <tr v-for="item in items" :key="item.item_sku">
-                <td><strong>{{ item.item_sku }}</strong></td>
+                <td class="nowrap"><strong>{{ item.item_sku }}</strong></td>
                 <td>{{ item.item_name }}</td>
                 <td>{{ item.current_demand }}</td>
                 <td><strong>{{ item.forecasted_demand }}</strong></td>
-                <td>
+                <td class="nowrap">
                   <span :class="['badge', item.trend]">{{ t(`trends.${item.trend}`) }}</span>
                 </td>
                 <td>{{ currencySymbol }}{{ item.unit_cost.toLocaleString() }}</td>
-                <td>{{ t('restocking.leadTimeDays', { days: item.lead_time_days }) }}</td>
+                <td class="nowrap">{{ t('restocking.leadTimeDays', { days: item.lead_time_days }) }}</td>
                 <td>{{ item.recommended_quantity }}</td>
                 <td>{{ currencySymbol }}{{ item.estimated_cost.toLocaleString() }}</td>
-                <td>
+                <td class="nowrap">
                   <span :class="['badge', item.fully_funded ? 'success' : 'warning']">
                     {{ item.fully_funded ? t('restocking.fullyFunded') : t('restocking.partiallyFunded') }}
                   </span>

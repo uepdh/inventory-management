@@ -25,11 +25,11 @@
             </thead>
             <tbody>
               <tr v-for="(q, index) in quarterlyData" :key="index">
-                <td><strong>{{ q.quarter }}</strong></td>
+                <td class="nowrap"><strong>{{ q.quarter }}</strong></td>
                 <td>{{ q.total_orders }}</td>
                 <td>${{ formatNumber(q.total_revenue) }}</td>
                 <td>${{ formatNumber(q.avg_order_value) }}</td>
-                <td>
+                <td class="nowrap">
                   <span :class="getFulfillmentClass(q.fulfillment_rate)">
                     {{ q.fulfillment_rate }}%
                   </span>
@@ -55,7 +55,7 @@
                   :title="'$' + formatNumber(month.revenue)"
                 ></div>
               </div>
-              <div class="bar-label">{{ formatMonth(month.month) }}</div>
+              <div class="bar-label">{{ formatMonthShort(month.month) }}</div>
             </div>
           </div>
         </div>
@@ -251,6 +251,16 @@ export default {
       return monthNames[monthIndex] + ' ' + year
     },
 
+    formatMonthShort(monthStr) {
+      // Chart x-axis only needs the short month name (the data is already
+      // scoped to a single year), so skip the year suffix used elsewhere
+      var parts = monthStr.split('-')
+      var month = parts[1]
+      var monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+      var monthIndex = parseInt(month) - 1
+      return monthNames[monthIndex]
+    },
+
     getBarHeight(revenue) {
       console.log('Calculating bar height for revenue:', revenue)
       // Calculate bar height (max height 200px)
@@ -318,25 +328,6 @@ export default {
 <style scoped>
 .reports {
   padding: 0;
-}
-
-.card {
-  background: var(--surface-1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  box-shadow: var(--shadow-sm);
-}
-
-.card-header {
-  margin-bottom: 1.5rem;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
 }
 
 .reports-table {
@@ -408,36 +399,11 @@ export default {
   font-size: 0.75rem;
   color: var(--text-secondary);
   text-align: center;
-  transform: rotate(-45deg);
   white-space: nowrap;
-  margin-top: 1.5rem;
 }
 
 .stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
   margin-top: 1.5rem;
-}
-
-.stat-card {
-  background: var(--surface-1);
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: var(--shadow-sm);
-  border-left: 4px solid var(--accent);
-}
-
-.stat-label {
-  font-size: 0.875rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
-}
-
-.stat-value {
-  font-size: 1.875rem;
-  font-weight: 700;
-  color: var(--text-primary);
 }
 
 .badge {

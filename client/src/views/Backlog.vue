@@ -51,12 +51,12 @@
             </thead>
             <tbody>
               <tr v-for="item in backlogItems" :key="item.id">
-                <td><strong>{{ item.order_id }}</strong></td>
-                <td><strong>{{ item.item_sku }}</strong></td>
+                <td class="nowrap"><strong>{{ item.order_id }}</strong></td>
+                <td class="nowrap"><strong>{{ item.item_sku }}</strong></td>
                 <td>{{ translateProductName(item.item_name) }}</td>
                 <td>{{ item.quantity_needed }}</td>
                 <td>{{ item.quantity_available }}</td>
-                <td>
+                <td class="nowrap">
                   <span class="badge danger">
                     {{ item.quantity_needed - item.quantity_available }} {{ t('backlog.unitsShort') }}
                   </span>
@@ -66,7 +66,7 @@
                     {{ item.days_delayed }} {{ t('backlog.days') }}
                   </span>
                 </td>
-                <td>
+                <td class="nowrap">
                   <span :class="['badge', item.priority]">
                     {{ t('priority.' + item.priority) }}
                   </span>

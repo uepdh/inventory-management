@@ -45,7 +45,7 @@
             </thead>
             <tbody>
               <tr v-for="order in orders" :key="order.id">
-                <td class="col-order-number"><strong>{{ order.order_number }}</strong></td>
+                <td class="col-order-number nowrap"><strong>{{ order.order_number }}</strong></td>
                 <td class="col-customer">{{ translateCustomerName(order.customer) }}</td>
                 <td class="col-items">
                   <details class="items-details">
@@ -60,13 +60,13 @@
                     </div>
                   </details>
                 </td>
-                <td class="col-status">
+                <td class="col-status nowrap">
                   <span :class="['badge', getOrderStatusClass(order.status)]">
                     {{ t(`status.${order.status.toLowerCase()}`) }}
                   </span>
                 </td>
-                <td class="col-date">{{ formatDate(order.order_date) }}</td>
-                <td class="col-date">{{ formatDate(order.expected_delivery) }}</td>
+                <td class="col-date nowrap">{{ formatDate(order.order_date) }}</td>
+                <td class="col-date nowrap">{{ formatDate(order.expected_delivery) }}</td>
                 <td class="col-value"><strong>{{ currencySymbol }}{{ order.total_value.toLocaleString() }}</strong></td>
               </tr>
             </tbody>
@@ -99,7 +99,7 @@
             </thead>
             <tbody>
               <tr v-for="order in restockingOrders" :key="order.id">
-                <td class="col-order-number"><strong>{{ order.order_number }}</strong></td>
+                <td class="col-order-number nowrap"><strong>{{ order.order_number }}</strong></td>
                 <td class="col-items">
                   <details class="items-details">
                     <summary class="items-summary">
@@ -114,10 +114,10 @@
                   </details>
                 </td>
                 <td class="col-value"><strong>{{ currencySymbol }}{{ order.total_cost.toLocaleString() }}</strong></td>
-                <td class="col-lead-time">{{ t('restocking.leadTimeDays', { days: order.lead_time_days }) }}</td>
-                <td class="col-date">{{ formatDate(order.order_date) }}</td>
-                <td class="col-date">{{ formatDate(order.expected_delivery) }}</td>
-                <td class="col-status">
+                <td class="col-lead-time nowrap">{{ t('restocking.leadTimeDays', { days: order.lead_time_days }) }}</td>
+                <td class="col-date nowrap">{{ formatDate(order.order_date) }}</td>
+                <td class="col-date nowrap">{{ formatDate(order.expected_delivery) }}</td>
+                <td class="col-status nowrap">
                   <span class="badge info">{{ order.status }}</span>
                 </td>
               </tr>

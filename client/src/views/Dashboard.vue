@@ -164,10 +164,9 @@
               <div v-for="cat in categoryData" :key="cat.name" class="h-bar-item">
                 <div class="h-bar-label">{{ translateCategory(cat.name) }}</div>
                 <div class="h-bar-container">
-                  <div class="h-bar" :style="{ width: (cat.value / maxCategoryValue * 100) + '%', background: cat.color }">
-                    <span class="h-bar-value">{{ selectedCurrency === 'JPY' ? formatCurrency(cat.value, selectedCurrency) : `$${(cat.value / 1000).toFixed(1)}K` }}</span>
-                  </div>
+                  <div class="h-bar" :style="{ width: (cat.value / maxCategoryValue * 100) + '%', background: cat.color }"></div>
                 </div>
+                <span class="h-bar-value">{{ selectedCurrency === 'JPY' ? formatCurrency(cat.value, selectedCurrency) : `$${(cat.value / 1000).toFixed(1)}K` }}</span>
               </div>
             </div>
             <div v-else class="no-data">{{ t('dashboard.inventoryShortages.noData') }}</div>
@@ -205,12 +204,12 @@
                   v-for="item in backlogItems"
                   :key="item.id"
                 >
-                  <td @click="showBacklogDetail(item)" style="cursor: pointer;"><strong>{{ item.order_id }}</strong></td>
-                  <td @click="showBacklogDetail(item)" style="cursor: pointer;"><strong>{{ item.item_sku }}</strong></td>
+                  <td @click="showBacklogDetail(item)" style="cursor: pointer;" class="nowrap"><strong>{{ item.order_id }}</strong></td>
+                  <td @click="showBacklogDetail(item)" style="cursor: pointer;" class="nowrap"><strong>{{ item.item_sku }}</strong></td>
                   <td @click="showBacklogDetail(item)" style="cursor: pointer;">{{ translateProductName(item.item_name) }}</td>
                   <td @click="showBacklogDetail(item)" style="cursor: pointer;">{{ item.quantity_needed }}</td>
                   <td @click="showBacklogDetail(item)" style="cursor: pointer;">{{ item.quantity_available }}</td>
-                  <td @click="showBacklogDetail(item)" style="cursor: pointer;">
+                  <td @click="showBacklogDetail(item)" style="cursor: pointer;" class="nowrap">
                     <span class="badge danger">
                       {{ Math.abs(item.quantity_needed - item.quantity_available) }} {{ t('dashboard.inventoryShortages.unitsShort') }}
                     </span>
@@ -772,7 +771,7 @@ export default {
 
 .kpi-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 1rem;
 }
 
@@ -1006,19 +1005,19 @@ export default {
 
 .h-bar {
   height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding-right: 0.75rem;
   transition: width 0.6s ease;
 }
 
 .h-bar-value {
+  /* Label renders outside/after the bar rather than inside it, so it
+     never gets clipped when the bar is short (e.g. a low-value category) */
+  width: 72px;
+  min-width: 72px;
+  flex-shrink: 0;
   font-size: 0.813rem;
   font-weight: 700;
-  /* Bar fill is var(--accent) orange; accent-contrast (navy) is the token
-     validated to clear contrast on it, not white. */
-  color: var(--accent-contrast);
+  color: var(--text-primary);
+  text-align: right;
 }
 
 .line-chart {
@@ -1298,5 +1297,29 @@ export default {
   background: var(--surface-2);
   transform: translateY(-1px);
   box-shadow: var(--shadow-sm);
+}
+
+/* Fixed 2-column grids overflow the viewport on narrow screens since their
+   children (donut chart, metrics) don't have room to shrink into a single
+   column; collapse to one column below tablet width. Grid items default to
+   min-width: auto, which lets their content's intrinsic size blow out the
+   track - min-width: 0 lets them actually shrink to the collapsed column. */
+@media (max-width: 768px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .charts-grid > .card {
+    min-width: 0;
+  }
+
+  .order-health-container {
+    grid-template-columns: 1fr;
+  }
+
+  .order-health-chart,
+  .order-health-metrics {
+    min-width: 0;
+  }
 }
 </style>
